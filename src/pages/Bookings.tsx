@@ -1,25 +1,24 @@
 // import React, { useState } from "react";
-import { FunctionComponent} from "react";
-import {Header} from "../components";
+import { FunctionComponent } from "react";
+import { Header } from "../components";
 import { useLocation } from "react-router-dom";
-import {WrapBooking, Bookingcard, Titlebooking, Address} from "../css/element"
-import {formatDateCard, formatHour} from "../helpers/formatDate"
+import { WrapBooking, Bookingcard, Titlebooking, Address } from "../css/element"
+import { formatDateCard, formatHour } from "../helpers/formatDate"
 
-const Bookings:FunctionComponent = ()=> {
+const Bookings: FunctionComponent = () => {
 
-    let location = useLocation();
+    const location = useLocation();
 
     // Destructuring state object of location object
-    const {doctor:{name, address: {line1, line2, postalCode, city, country}}, start} = location.state as any;
+    const { doctor: { name, address: { line1, line2, postalCode, city, country } }, start } = location.state as any;
 
-    console.log("match =>",name)
-    return<>
-        <Header/>
+    return <>
+        <Header />
         <WrapBooking>
             <Bookingcard>
                 <Titlebooking>
                     <div>Vous avez rendez-vous avec</div>
-                    <div>le <span>{name}</span> le <span>{formatDateCard(start)}</span> à <span>{formatHour(start)}</span></div>
+                    <div>le <span>{name}</span> le <span>{formatDateCard(start, "long", "long")}</span> à <span>{formatHour(start)}</span></div>
                 </Titlebooking>
                 <div className="adress-block">
                     <strong>À l'adresse suivante :</strong>

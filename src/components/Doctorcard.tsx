@@ -1,32 +1,26 @@
-import {useState, useEffect, FunctionComponent} from "react";
-import {Doctor, Availability} from "../models/doctor";
-import {Availabilitydate} from "../components";
+import { FunctionComponent } from "react";
+import { Doctor } from "../models/doctor";
+import { Availabilitydate } from "../components";
 import { Profile, Profilename, Address, Wrapbutton, Card } from "../css/element";
-import {availabilitiesList} from "../helpers/availabilitiesList"
+import { useAvailabilities } from "../hooks";
 
 interface Props {
     doctor: Doctor,
 }
 
-const Doctorcard: FunctionComponent<Props> = ({doctor}) => {
+const Doctorcard: FunctionComponent<Props> = ({ doctor }) => {
 
     // Destructuring doctor object
-    const {id, name, address:{ line1, line2, postalCode, city}} = doctor;
-    
-    // Availabilities List
-    const [availabilities, setAvailabilities] = useState<Availability[]>([]);
+    const { id, name, address: { line1, line2, postalCode, city } } = doctor;
 
-    useEffect(() => {
-        availabilitiesList(id, setAvailabilities);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-    
+    const availabilities = useAvailabilities(id);
+
     // Loop availabilities list
-    const AvailabilitiesList = availabilities.map((a,i) => (
-        <Availabilitydate key={i} availability={a} doctor={doctor}/>
-      ));
+    const availabilitiesList = availabilities.map((a) => (
+        <Availabilitydate key={`${a.start}`} availability={a} doctor={doctor} />
+    ));
 
-    return<>
+    return (
         <Card>
             <Profile>
                 <i className="fas fa-user-alt"></i>
@@ -37,10 +31,10 @@ const Doctorcard: FunctionComponent<Props> = ({doctor}) => {
                 <div><i className="fas fa-building"></i> {postalCode} {city}</div>
             </Address>
             <Wrapbutton>
-                {AvailabilitiesList}
+                {availabilitiesList}
             </Wrapbutton>
         </Card>
-    </>
+    )
 }
 
 export default Doctorcard;

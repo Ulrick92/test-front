@@ -23,5 +23,5 @@ export interface Booking {
     date: Date,
     createdAt: Date,
     updatedAt: Date,
-    doctor? : Doctor,
+    doctor?: Doctor,
 }

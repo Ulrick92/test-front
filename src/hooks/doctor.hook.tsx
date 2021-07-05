@@ -1,17 +1,23 @@
-import {useState, useEffect} from "react"
-import {Doctor} from "../models/doctor"
-import {doctorsList} from "../helpers/doctorsList"
+import { useState, useEffect } from "react"
+import { Doctor } from "../models/doctor"
+import { doctorsList } from "../helpers/doctorsList"
 
 const useDoctors = () => {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
-    const [spinner, setSpinner] = useState<boolean>(true);
+    const [loader, setLoader] = useState<boolean>(true);
 
-    useEffect(()=>{
-        doctorsList(setDoctors, setSpinner);
-    },[]);
+    const doctorsListTab = async () => {
+        const result = await doctorsList()
+        setDoctors(result)
+        setLoader(false)
+    }
+
+    useEffect(() => {
+        doctorsListTab()
+    }, []);
     return {
         doctors,
-        spinner
+        loader
     };
 }
 

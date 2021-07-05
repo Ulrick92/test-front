@@ -1,16 +1,13 @@
-import {Availability} from "../models/doctor"
-import apiJoovence, {availabilitiesMap} from "../conf/api.joovence"
+import { Availability } from "../models/doctor"
+import apiJoovence from "../conf/api.joovence"
 
-export const availabilitiesList = (id:string, setAvailabilities:(value:Availability[])=> void) => {
+export const availabilitiesList = async (id: string): Promise<Availability[]> => {
     // Fetch availabilities list
-    const getAvailabilities = async () => {
-        try{
-            const response = await apiJoovence.get(`availabilities?doctorId=${id}`);
-            const availabilitiesList = await response.data.map(availabilitiesMap);
-            setAvailabilities(availabilitiesList);
-        }catch(error){
-            console.log(error);
-        }
-    };
-    getAvailabilities();
+    try {
+        const response = await apiJoovence.get(`availabilities?doctorId=${id}`);
+        return await response.data;
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
 };

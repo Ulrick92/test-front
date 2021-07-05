@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
-const blue = "#ccecfa";
-const red = "#EE737F";
-const redLight = "#FEEFED";
+const colorsPalette = {
+  blue: "#ccecfa",
+  red: "#EE737F",
+  redLight: "#FEEFED",
+}
+
+const {blue, red, redLight} = colorsPalette;
 
 export const Wrapper = styled.div`
   max-width: 1350px;

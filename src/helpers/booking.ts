@@ -1,18 +1,21 @@
-import {Booking} from "../models/doctor"
+import { Booking } from "../models/doctor"
 import apiJoovence from "../conf/api.joovence"
 
-export const booking = (date:Date, doctorId:string, setAction:(value:Booking) => void) => {
-    const postBooking = async () => {
-        try{
-            const response = await apiJoovence.post("bookings", {
-                date,
-                doctorId
-              });
-            const result = await response.data;
-            setAction(result);
-        }catch(error){
-            console.log(error);
+export const booking = async (date: Date, doctorId: string): Promise<Booking> => {
+    try {
+        const response = await apiJoovence.post("bookings", {
+            date,
+            doctorId
+        });
+        return await response.data;
+    } catch (error) {
+        console.log(error);
+        return {
+            id: "",
+            doctorId: "",
+            date: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
         }
-    };
-    postBooking();
+    }
 }
